@@ -1,32 +1,37 @@
 import Express from "express"
-import Ytdl from "ytdl-core"
+import { createServer } from "http"
+import SongsService from "./Service/songsService"
+import { Server } from "socket.io"
+import UserController from "./Controller/userController"
 
 const app = Express()
 const port = process.env.PORT || 4000
+const server = createServer(app)
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+})
+
+app.use(Express.json())
+
+io.on("connection", (socket) => {
+  console.log("a user connected")
+  socket.on("disconnect", () => {
+    console.log("user disconnected")
+  })
+})
 
 app.get("/", (req, res) => {
   res.send("Welcome to MeloMix Backend!")
 })
 
+app.get("/get-user", UserController.getUser)
+
 app.get("/get-audio", async (req, res) => {
   const url = req.query.url as string
 
-  if (!Ytdl.validateURL(url)) {
-    res.status(400).send("Invalid URL")
-    return
-  }
-
-  const info = await Ytdl.getInfo(url)
-  const audioFormat = Ytdl.filterFormats(info.formats, "audioonly")
-  if (audioFormat.length === 0) {
-    res.status(400).send("No audio formats found")
-    return
-  }
-
-  const stream = Ytdl(url, {
-    filter: "audioonly",
-    format: audioFormat[0],
-  })
+  const stream = await SongsService.getAudioStream(url)
 
   stream.on("response", (resp) => {
     res.set(resp.headers)
@@ -42,11 +47,16 @@ app.get("/get-audio", async (req, res) => {
   })
 
   stream.on("end", () => {
-    console.log("Stream ended")
     res.end()
   })
 })
 
-app.listen(port, () => {
+app.get("/get-audio-url", async (req, res) => {
+  const url = req.query.url as string
+  const audioURL = await SongsService.getAudioURL(url)
+  res.send(audioURL)
+})
+
+server.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
 })
