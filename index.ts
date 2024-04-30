@@ -4,7 +4,7 @@ import SongsService from "./Service/songsService"
 import { Server } from "socket.io"
 import UserController from "./Controller/userController"
 
-const app = Express()
+export const app = Express()
 const port = process.env.PORT || 4000
 const server = createServer(app)
 const io = new Server(server, {
@@ -25,6 +25,8 @@ io.on("connection", (socket) => {
 app.get("/", (req, res) => {
   res.send("Welcome to MeloMix Backend!")
 })
+
+app.post("/create-user", UserController.createUser)
 
 app.get("/get-user", UserController.getUser)
 
