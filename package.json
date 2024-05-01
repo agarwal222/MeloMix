@@ -23,7 +23,8 @@
     "rimraf": "^5.0.5",
     "socket.io": "^4.7.5",
     "typescript": "^5.4.5",
-    "ytdl-core": "^4.11.5"
+    "ytdl-core": "^4.11.5",
+    "ytmusic-api": "^5.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0",
