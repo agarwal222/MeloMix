@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import RoomsService from "../Service/roomService"
-import exp from "constants"
 
 export default class RoomController {
   public static async getRoom(req: Request, res: Response) {

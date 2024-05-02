@@ -1,6 +1,4 @@
-import { create } from "domain"
 import { default as db } from "../lib/prismaClint"
-import type { rooms } from "@prisma/client"
 export default class RoomService {
   public static async getRoom(id: number) {
     const room = await db.rooms.findUnique({
