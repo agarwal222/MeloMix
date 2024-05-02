@@ -7,6 +7,8 @@ Welcome to MeloMix Backend! This repository powers the server-side magic behind 
 - **Node.js**: Powering the backend with JavaScript magic.
 - **Express.js**: Our trusty companion for building robust web applications.
 - **Socket.IO**: Enabling real-time, bidirectional communication for seamless jam sessions.
+- **Prisma**: The ORM for our database.
+- **YTMusic API**: Our music library.
 
 ## 🎧 What is MeloMix?
 
