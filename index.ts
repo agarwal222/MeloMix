@@ -3,7 +3,10 @@ import { createServer } from "http"
 import { Server } from "socket.io"
 import UserController from "./Controller/userController"
 import AudioController from "./Controller/audioController"
-import RoomController from "./Controller/roomsController"
+import {
+  RoomController,
+  RoomSocketController,
+} from "./Controller/roomsController"
 
 export const app = Express()
 const port = process.env.PORT || 4000
@@ -17,10 +20,7 @@ const io = new Server(server, {
 app.use(Express.json())
 
 io.on("connection", (socket) => {
-  console.log("a user connected")
-  socket.on("disconnect", () => {
-    console.log("user disconnected")
-  })
+  new RoomSocketController(io, socket)
 })
 
 app.get("/", (req, res) => {
