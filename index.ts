@@ -1,12 +1,13 @@
 import Express from "express"
 import { createServer } from "http"
 import { Server } from "socket.io"
-import UserController from "./Controller/userController"
-import AudioController from "./Controller/audioController"
+import UserController from "@controllers/userController"
+import AudioController from "@controllers/audioController"
 import {
   RoomController,
   RoomSocketController,
-} from "./Controller/roomsController"
+} from "@controllers/roomsController"
+import { PlaylistSocketController } from "@controllers/playlistController"
 
 export const app = Express()
 const port = process.env.PORT || 4000
@@ -21,6 +22,7 @@ app.use(Express.json())
 
 io.on("connection", (socket) => {
   new RoomSocketController(io, socket)
+  new PlaylistSocketController(io, socket)
 })
 
 app.get("/", (req, res) => {

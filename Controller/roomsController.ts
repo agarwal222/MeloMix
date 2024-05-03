@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import RoomsService from "../Service/roomService"
+import RoomsService from "@services/roomService"
 import type { Server, Socket } from "socket.io"
 
 export class RoomController {

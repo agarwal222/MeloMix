@@ -1,4 +1,4 @@
-import { default as db } from "../lib/prismaClint"
+import { default as db } from "@lib/prismaClint"
 
 export default class PlaylistService {
   public static async getAllSongs(id: number) {
@@ -39,6 +39,17 @@ export default class PlaylistService {
     })
 
     return currentSong
+  }
+
+  public static async addNewTrack(id: number, track: any) {
+    const newTrack = await db.tracks.create({
+      data: {
+        ...track,
+        position: (await db.tracks.count({ where: { playList_id: id } })) + 1,
+        playList_id: id,
+      },
+    })
+    return newTrack
   }
 
   public static async playNextSong(id: number) {

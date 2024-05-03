@@ -1,4 +1,4 @@
-import { default as db } from "../lib/prismaClint"
+import { default as db } from "@lib/prismaClint"
 import type { users } from "@prisma/client"
 
 export default class UserService {

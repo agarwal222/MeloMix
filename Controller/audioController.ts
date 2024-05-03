@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import SongsService from "../Service/songsService"
+import SongsService from "@services/songsService"
 
 export default class AudioController {
   public static async getAudioStream(req: Request, res: Response) {
