@@ -8,25 +8,20 @@ export class PlaylistSocketController {
     this.io = io
     this.socket = socket
 
-    // TODO: add socket listeners
-    // ?1 play
     this.socket.on("play", async (data) => {
       const songInfo = await this.play(data.roomId)
       this.io.to(data.roomId).emit("play", songInfo)
     })
 
-    // ?2 pause
     this.socket.on("pause", (data) => {
       this.io.to(data.roomId).emit("pause", data.durationInfo)
     })
 
-    // ?3 next
     this.socket.on("next", async (data) => {
       const nextSong = await PlaylistService.playNextSong(Number(data.roomId))
       this.io.to(data.roomId).emit("next", nextSong)
     })
 
-    // ?4 previous
     this.socket.on("previous", async (data) => {
       const previousSong = await PlaylistService.playPreviousSong(
         Number(data.roomId)
@@ -34,7 +29,27 @@ export class PlaylistSocketController {
       this.io.to(data.roomId).emit("previous", previousSong)
     })
 
-    // ?5 sync
+    // sync
+    this.socket.on("sync", (data) => {
+      this.io.to(data.roomId).emit("sync-ask", data.author_id)
+    })
+    this.socket.on("sync-send", (data) => {
+      this.io.to(data.roomId).emit("sync-data", data)
+    })
+
+    this.socket.on("change-track-position", async (data) => {
+      const changedSong = await PlaylistService.changeTrackPosition(
+        Number(data.roomId),
+        data.position,
+        data.track_id
+      )
+      this.io.to(data.roomId).emit("change-track-position", changedSong)
+    })
+
+    this.socket.on("add-new-track", async (data) => {
+      const newTrack = await this.addNewTrack(data.roomId, data.track)
+      this.io.to(data.roomId).emit("add-new-track", newTrack)
+    })
   }
 
   public async play(roomId: string) {
