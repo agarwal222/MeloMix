@@ -166,6 +166,15 @@ export default class PlaylistService {
       },
     })
 
+    await db.playList.update({
+      where: {
+        id: cp.id,
+      },
+      data: {
+        current: position,
+      },
+    })
+
     return await this.getAllSongs(id)
   }
 }

@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import UserService from "../Service/userService"
 import type { users } from "@prisma/client"
 
-export default class UserController {
+class UserController {
   public static async getUser(req: Request, res: Response) {
     const userEmail = req.query.email as string
     const user = await UserService.getUser(userEmail)
@@ -41,3 +41,5 @@ export default class UserController {
       .status(201)
   }
 }
+
+export default UserController
