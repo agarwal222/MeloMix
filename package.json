@@ -15,10 +15,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@kinde-oss/kinde-node-express": "^1.4.0",
     "@prisma/client": "^5.13.0",
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.7",
     "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "rimraf": "^5.0.5",
     "socket.io": "^4.7.5",

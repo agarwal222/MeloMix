@@ -3,6 +3,7 @@ import UserService from "../Service/userService"
 import type { users } from "@prisma/client"
 
 class UserController {
+  public static async markUserAsRead(req: Request, res: Response) {}
   public static async getUser(req: Request, res: Response) {
     const userEmail = req.query.email as string
     const user = await UserService.getUser(userEmail)

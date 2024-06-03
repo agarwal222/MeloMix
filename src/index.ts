@@ -8,10 +8,26 @@ import {
   RoomSocketController,
 } from "@controllers/roomsController"
 import { PlaylistSocketController } from "@controllers/playlistController"
+import { jwtVerify } from "@kinde-oss/kinde-node-express"
+import cors from "cors"
+
+const JWT_verify = jwtVerify("https://melomix.kinde.com", {
+  audience: "",
+})
 
 export const app = Express()
 const port = process.env.PORT || 4000
 const server = createServer(app)
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+)
+
 const io = new Server(server, {
   cors: {
     origin: "*",
